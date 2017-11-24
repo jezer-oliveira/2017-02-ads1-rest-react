@@ -3,10 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 import ProdutoPagina from './produto/ProdutoPagina';
 import Principal from './Principal';
+import Login from "./login/Login";
+import servicoLogin from "./login/ServicoLogin";
 
 class App extends Component {
-  render() {
-      return <Principal/>;
+    
+    constructor(props){
+        super(props);
+        this.state={
+            logado:servicoLogin.logado()
+        };
+    } 
+    
+    render() {
+      return this.state.logado?<Principal/>:<Login onLogin={()=>this.setState({logado:true})} />;
       /*
     return (
       <div className="App">

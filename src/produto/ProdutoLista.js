@@ -12,6 +12,23 @@ import Table, {
 } from 'material-ui/Table';
 
 
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import purple from 'material-ui/colors/purple';
+import green from 'material-ui/colors/green';
+import red from 'material-ui/colors/red';
+import Button from 'material-ui/Button';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: purple, // Purple and green play nicely together.
+    secondary: {
+      ...green,
+      A400: '#00e677',
+    },
+    error: red,
+  },
+});
+
 
 export default class ProdutoLista extends React.Component {
 
@@ -34,11 +51,14 @@ export default class ProdutoLista extends React.Component {
 
     botoesProduto(produto) {
         let botoes = [];
+        
+
+
         if (this.props.editar) {
             let botao = <IconButton onClick={(evento) => {
                                 this.props.editar(produto);
-            }} color="primary">
-        <Icon>create</Icon>
+            }} >
+        <Icon style={{color:"#F0F"}}>create</Icon>
       </IconButton>
                             /*
                             <button onClick={(evento) => {
@@ -72,7 +92,7 @@ export default class ProdutoLista extends React.Component {
             return <div>Vazio!</div>;
         } else {
 
-            return <Table >
+            return (<MuiThemeProvider theme={theme}> <Table >
     <TableHead>
         <TableRow>
             <TableCell>Nome</TableCell><TableCell  >Valor</TableCell>
@@ -101,7 +121,8 @@ export default class ProdutoLista extends React.Component {
                 />
         </TableRow>                        
     </TableFooter>
-</Table>;
+    </Table>
+    </MuiThemeProvider>);
         }
     }
 }

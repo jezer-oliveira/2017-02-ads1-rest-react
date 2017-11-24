@@ -8,7 +8,7 @@ import ServicoRest from "../ServicoRest";
 
 export default class ProdutoServico extends  ServicoRest {
         constructor(){
-            super("/produtos/");
+            super("/api/produtos/");
         }
         
 }
