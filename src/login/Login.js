@@ -17,6 +17,7 @@ export default class Login  extends Component  {
     constructor(props) {
         super(props);
         this.state = {
+                avisoLogin:"",
                 login: {
                 usuario: "",
                 senha: ""
@@ -32,8 +33,20 @@ export default class Login  extends Component  {
 
     login(){
         this.setState({texto:""});
-        servicoLogin.login(this.state.login.usuario, this.state.login.senha);
-        this.props.onLogin();
+        servicoLogin.login(
+                this.state.login.usuario, 
+        this.state.login.senha,
+            (sucesso) => {
+                this.props.onLogin();
+            },
+            (erro) =>{
+                console.log(erro);
+                this.setState({
+                    avisoLogin:erro.message
+                });
+            }
+            );
+        
     }
 
     render() {
@@ -42,7 +55,7 @@ export default class Login  extends Component  {
                 <Grid container  alignItems="center"
             justify="center" style={{height:"100%"}}>
 
-
+                    
         <Grid item xs={12} sm={8} md={4} lg={3} alignItems="center" >
                 <Paper style={{padding:"15px"}}>
 
@@ -76,11 +89,11 @@ export default class Login  extends Component  {
 
 <br/>
                 <div style={{
-                     visibility:this.state.texto?"":"hidden",
+                     visibility:this.state.avisoLogin?"":"hidden",
                     width:"100%",
                     textAlign:"center"}}>
                     
-                <Typography color="error">{this.state.texto} <br/> </Typography></div>
+                <Typography color="error">{this.state.avisoLogin} <br/> </Typography></div>
                 <br/>
                 <Button type="submit" style={{width:"100%"}} raised color="primary">Confirmar</Button>
                 <br/><br/>

@@ -7,9 +7,30 @@ class ServicoLogin  {
         //super("api/login");
     }
     
-    login(usuario, senha){
+    login(usuario, senha, sucesso, erro){
         this.usuario=usuario;
         this.senha=senha;
+        
+        
+        fetch(`api/usuarios/login`,{
+             headers: new Headers({
+                'Authorization': 'Basic ' + this.getAuthorization()
+            }),
+            method:"GET"
+        }
+        ).then((resposta)=>{
+           if(resposta.ok) {
+               resposta.json().then((dados)=>{this.dados=dados; sucesso(dados);}) 
+               
+           } else {
+               resposta.json().then(erro);
+           }
+               
+        } ).catch(erro);
+        
+
+        
+        
         
     }
     
