@@ -12,6 +12,8 @@ import { Redirect } from 'react-router';
 import Switch from 'material-ui/Switch';
 import { FormControlLabel, FormGroup } from 'material-ui/Form';
 import servicoLogin from "./ServicoLogin";
+import GoogleLogin from 'react-google-login';
+import Auth from './Auth';
 
 export default class Login  extends Component  {
     constructor(props) {
@@ -22,6 +24,14 @@ export default class Login  extends Component  {
                 usuario: "",
                 senha: ""
             }};
+    }
+
+
+    loginAut(){
+        const auth = new Auth();
+auth.login();
+
+        
     }
 
     setValor(atributo, valor)  {
@@ -48,6 +58,31 @@ export default class Login  extends Component  {
             );
         
     }
+    
+    
+    loginGoogle(dados){
+        this.setState({texto:""});
+        console.log(dados); 
+        servicoLogin.loginGoogle(dados.tokenId,
+            (sucesso) => {
+                this.props.onLogin();
+            },
+            (erro) =>{
+                console.log(erro);
+                this.setState({
+                    avisoLogin:erro.message
+                });
+            }
+            );
+        
+    }
+    
+    showLock(){
+    this.refs.lock1.showLock(function(err, profile){
+      if(err) console.log(err);
+      console.log(profile);
+    });
+}
 
     render() {
         return (
@@ -99,7 +134,17 @@ export default class Login  extends Component  {
                 <br/><br/>
                 <Button style={{width:"100%"}} raised color="accent">Cadastrar</Button>
                     </form>
-                </Paper>
+                <br/>
+                                                         <GoogleLogin
+    clientId="69512171033-q6qt702o2lanhrcnp2qdvb84t3kmfuph.apps.googleusercontent.com"
+    buttonText="Login com google"
+    onSuccess={(dados)=>this.loginGoogle(dados)}
+    onFailure={(dados)=>console.log(dados)}
+  /><br/>
+  
+                                                <button onClick={(e)=>this.loginAut()}>auth0.com</button> 
+  
+                                                        </Paper>
                 </Grid></Grid>
                 </div>
 

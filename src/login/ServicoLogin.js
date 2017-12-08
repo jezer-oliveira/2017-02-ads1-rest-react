@@ -7,6 +7,25 @@ class ServicoLogin  {
         //super("api/login");
     }
     
+    
+    loginGoogle(token, sucesso, erro){
+        
+        fetch(`api/usuarios/login/google?googleToken=${token}`,{
+            method:"GET"
+        }
+        ).then((resposta)=>{
+           if(resposta.ok) {
+               this.token=resposta.headers.get("token");
+               resposta.json().then((dados)=>{this.dados=dados; sucesso(dados);}) 
+               
+           } else {
+               resposta.json().then(erro);
+           }
+               
+        } ).catch(erro);
+    }
+    
+    
     login(usuario, senha, sucesso, erro){
         this.usuario=usuario;
         this.senha=senha;
@@ -28,11 +47,6 @@ class ServicoLogin  {
            }
                
         } ).catch(erro);
-        
-
-        
-        
-        
     }
     
     getAuthorizationGet() {
