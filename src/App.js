@@ -17,6 +17,7 @@ class App extends Component {
     
     render() {
       return this.state.logado?<Principal/>:<Login onLogin={()=>this.setState({logado:true})} />;
+      
       /*
     return (
       <div className="App">
